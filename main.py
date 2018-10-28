@@ -1,5 +1,6 @@
 # machine data creation tool for machine learning project
 # dorian zwanzig 2018-10-27 17:35
+# version 0.1.1810271735
 
 import numpy as np
 import sys
