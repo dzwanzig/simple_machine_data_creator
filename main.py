@@ -1,6 +1,6 @@
 # machine data creation tool for machine learning project
 # dorian zwanzig 2018-11-03
-# version 0.2.1811041924
+# version 0.2.1811051428
 
 import numpy as np
 import sys
@@ -19,13 +19,13 @@ except:
 d.write("ID;Uhrzeit;Drehzahl;Leistungsaufnahme;Vibration;Lautstaerke;Temperatur;FehlerID\n")
 
 # Standardwerte:
-std_dz = 100        # Standarddrehzahl
-std_la = 18.5       # Standardleistungsaufnahme
-std_vb = 0          # Standardvibration
-std_ls = 75         # Standardlautstärke
-data_id_nr = 1000   # Startwert für die ID Erstellung
-std_te = 100        # Standardtemperatur
-fehler_id = "leer"  # Fehlerwert bei Ausfall
+std_dz = 100             # Standarddrehzahl
+std_la = 18.5            # Standardleistungsaufnahme
+std_vb = 0               # Standardvibration
+std_ls = 75              # Standardlautstärke
+data_id_nr = 10000000    # Startwert für die ID Erstellung
+std_te = 100             # Standardtemperatur
+fehler_id = "leer"       # Fehlerwert bei Ausfall
 starttime = datetime(2018, 1, 1, 0, 0, 0)   # Startzeit der Simulation
 
 # Startzeile setzen
