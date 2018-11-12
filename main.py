@@ -48,8 +48,8 @@ def normalbetrieb():
         lautstaerke = round(np.random.normal(std_ls, 0.1), 3)
         data_id_nr = 10000000 + zeile
         time = starttime + timedelta(seconds=30 * zeile)
-        d.write("ABC" + str(data_id_nr) + ";" + str(time) + ";" + str(drehzahl) + ";" + str(leistungsaufnahme) +
-                ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(std_te) + ";" + "leer\n")
+        write_data(data_id_nr, time, drehzahl, leistungsaufnahme,
+                   vibration, lautstaerke, temperatur, fehler_id)
         zeile = zeile + 1
         x = x + 1
     return zeile
@@ -71,8 +71,8 @@ def wartung():
         data_id_nr = 10000000 + zeile
         temperatur = temperatur - 2
         time = starttime + timedelta(seconds=30 * zeile)
-        d.write("ABC" + str(data_id_nr) + ";" + str(time) + ";" + str(drehzahl) + ";" + str(leistungsaufnahme) +
-                ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(std_te) + ";" + str(fehler_id) + "\n")
+        write_data(data_id_nr, time, drehzahl, leistungsaufnahme,
+                   vibration, lautstaerke, temperatur, fehler_id)
         zeile = zeile + 1
         x = x + 1
     return zeile
@@ -110,8 +110,8 @@ def ausfall_2():
         data_id_nr = 10000000 + zeile
         time = starttime + timedelta(seconds=30 * zeile)
         temperatur = round(temperatur + np.random.normal(2, 0.5), 1)
-        d.write("ABC" + str(data_id_nr) + ";" + str(time) + ";" + str(drehzahl) + ";" + str(leistungsaufnahme) +
-                ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(temperatur) + ";" + str(fehler_id) + "\n")
+        write_data(data_id_nr, time, drehzahl, leistungsaufnahme,
+                   vibration, lautstaerke, temperatur, fehler_id)
         zeile = zeile + 1
         x = x + round(np.random.normal(0.005, 0.002), 3)
     # zufällige Ausfallzeit
@@ -123,8 +123,8 @@ def ausfall_2():
         data_id_nr = 10000000 + zeile
         temperatur = round(temperatur - 1, 1)
         time = starttime + timedelta(seconds=30 * zeile)
-        d.write("ABC" + str(data_id_nr) + ";" + str(time) + ";" + str(drehzahl) + ";" + str(leistungsaufnahme) +
-                ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(temperatur) + ";" + str(fehler_id) + "\n")
+        write_data(data_id_nr, time, drehzahl, leistungsaufnahme,
+                   vibration, lautstaerke, temperatur, fehler_id)
         zeile = zeile + 1
         x = x + 1
     return zeile
@@ -147,8 +147,8 @@ def ausfall_1():
         data_id_nr = 10000000 + zeile
         time = starttime + timedelta(seconds=30 * zeile)
         temperatur = round(temperatur + np.random.normal(0.5, 0.2), 1)
-        d.write("ABC" + str(data_id_nr) + ";" + str(time) + ";" + str(drehzahl) + ";" + str(leistungsaufnahme) +
-                ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(temperatur) + ";" + str(fehler_id) + "\n")
+        write_data(data_id_nr, time, drehzahl, leistungsaufnahme,
+                   vibration, lautstaerke, temperatur, fehler_id)
         zeile = zeile + 1
         x = x + round(np.random.normal(0.01, 0.005), 3)
     # zufällige Ausfallzeit
@@ -162,11 +162,18 @@ def ausfall_1():
         data_id_nr = 10000000 + zeile
         temperatur = round(temperatur - 1, 1)
         time = starttime + timedelta(seconds=30 * zeile)
-        d.write("ABC" + str(data_id_nr) + ";" + str(time) + ";" + str(drehzahl) + ";" + str(leistungsaufnahme) +
-                ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(temperatur) + ";" + str(fehler_id) + "\n")
+        write_data(data_id_nr, time, drehzahl, leistungsaufnahme,
+                   vibration, lautstaerke, temperatur, fehler_id)
         zeile = zeile + 1
         x = x + 1
     return zeile
+
+# Werte in Ausgabedatei schreiben
+
+
+def write_data(data_id_nr, time, drehzahl, leistungsaufnahme, vibration, lautstaerke, temperatur, fehler_id):
+    d.write("ABC" + str(data_id_nr) + ";" + str(time) + ";" + str(drehzahl) + ";" + str(leistungsaufnahme) +
+            ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(temperatur) + ";" + str(fehler_id) + "\n")
 
 # Auswahl zwischen den Events
 
