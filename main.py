@@ -1,6 +1,6 @@
 # machine data creation tool for machine learning project
 # dorian zwanzig 2018-11-03
-# version 0.2.1811121004
+# version 0.2.1811121016
 
 import numpy as np
 import sys
@@ -52,7 +52,6 @@ def normalbetrieb():
                 ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(std_te) + ";" + "leer\n")
         zeile = zeile + 1
         x = x + 1
-    # print("Normalbetrieb")
     return zeile
 
 # Erstellung mehrerer Datensätze durch Schleife (Wartung)
@@ -76,7 +75,6 @@ def wartung():
                 ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(std_te) + ";" + str(fehler_id) + "\n")
         zeile = zeile + 1
         x = x + 1
-    # print("Wartung")
     return zeile
 
 # Wartungsgrund auswählen
@@ -129,7 +127,6 @@ def ausfall_2():
                 ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(temperatur) + ";" + str(fehler_id) + "\n")
         zeile = zeile + 1
         x = x + 1
-    # print("Ausfall")
     return zeile
 
 # Erstellung mehrerer Datensätze durch Schleife (Ausfall aufgrund zu hoher Leistungsaufnahme)
@@ -169,7 +166,6 @@ def ausfall_1():
                 ";" + str(vibration) + ";" + str(lautstaerke) + ";" + str(temperatur) + ";" + str(fehler_id) + "\n")
         zeile = zeile + 1
         x = x + 1
-    # print("Ausfall")
     return zeile
 
 # Auswahl zwischen den Events
@@ -190,11 +186,6 @@ def choose():
 # Aufruf Auswahl
 while zeile < menge:
     choose()
-    # zeile = int(choose(zeile, menge, std_dz, std_la, std_vb,
-    #                   std_ls, data_id_nr, std_te, starttime))
-
-# Timestamp am Ende der Datei erstellen
-# d.write(time.strftime("%d.%m.%Y %H:%M:%S"))
 
 # Erfolgsbestätigung
 counter = zeile - 1
