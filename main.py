@@ -23,7 +23,7 @@ std_dz = 100             # Startdrehzahl
 std_la = 18.5            # Startleistungsaufnahme
 std_vb = 0               # Startvibration
 std_ls = 75              # Startlautstärke
-data_id_nr = 10000000    # Startwert für die Datensatz ID, wird um "ABC" am Anfang ergänzt
+data_id_nr = 100000      # Startwert für die Datensatz ID, wird um "ABC" am Anfang ergänzt
 std_te = 100             # Starttemperatur
 fehler_id = "leer"       # Fehlerwert bei Ausfall
 time = datetime(2018, 1, 1, 0, 0, 0)   # Startzeit der Simulation
@@ -45,9 +45,12 @@ menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: ")) + zei
 
 
 def write_data():
+    global zeile
+    zeile = zeile + 1
     d.write("ABC" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
             ";" + str(std_la) + ";" + str(std_vb) + ";" + str(std_ls) + ";" + str(std_te) + ";" + str(fehler_id) +
             ";" + str(prod_programm) + ";" + str(soll_menge) + ";" + str(ist_menge) + ";" + str(ausschuss) + "\n")
+
 
 # Zeitzähler
 
@@ -63,7 +66,7 @@ def timer():
 
 
 def normalbetrieb():
-    global zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
+    global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
     x = 0
     y = random.randrange(1, 200)
     while x < y:
@@ -78,14 +81,13 @@ def normalbetrieb():
         ist_menge = 2350
         ausschuss = random.randrange(0, 20)
         write_data()
-        zeile = zeile + 1
         x = x + 1
 
 # Erstellung mehrerer Datensätze durch Schleife (Wartung)
 
 
 def wartung():
-    global zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
+    global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
     fehler_id = wartung_grund()
     x = 0
     y = random.randrange(10, 50)
@@ -94,12 +96,12 @@ def wartung():
         std_la = round(np.random.normal(2, 0.1), 3)
         std_vb = round(np.random.normal(0, 0.3), 3)
         std_ls = round(np.random.normal(25, 0.1), 3)
+        data_id_nr = data_id_nr + 1
         timer()
         std_te = std_te - 1
         ist_menge = 0
         ausschuss = 0
         write_data()
-        zeile = zeile + 1
         x = x + 1
 
 # Wartungsgrund auswählen
@@ -122,7 +124,7 @@ def wartung_grund():
 
 
 def ausfall_2():
-    global zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
+    global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
     fehler_id = "0000"
     x = 1
     # Motortemperatur steigt bis zum Ausfall
@@ -137,7 +139,6 @@ def ausfall_2():
         ist_menge = int(std_dz * 47 / 2)
         ausschuss = int(round(x * x * random.randrange(5, 20), 0))
         write_data()
-        zeile = zeile + 1
         x = x + round(np.random.normal(0.005, 0.002), 3)
     fehler_id = "F002"
     # Abkühlung bis Normaltemperatur bevor Maschine wieder angeschaltet wird
@@ -152,15 +153,13 @@ def ausfall_2():
         ist_menge = 0
         ausschuss = 0
         write_data()
-        zeile = zeile + 1
         x = x + 1
-    return zeile
 
 # Erstellung mehrerer Datensätze durch Schleife (Ausfall aufgrund zu hoher Leistungsaufnahme)
 
 
 def ausfall_1():
-    global zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
+    global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
     fehler_id = "0000"
     x = 1
     # Strombedarf steigt bis zum Ausfall
@@ -175,7 +174,6 @@ def ausfall_1():
         ist_menge = int(std_dz * 47 / 2)
         ausschuss = int(round(x * x * random.randrange(5, 20), 0))
         write_data()
-        zeile = zeile + 1
         x = x + round(np.random.normal(0.01, 0.005), 3)
     fehler_id = "F001"
     # zufällige Ausfallzeit
@@ -192,9 +190,7 @@ def ausfall_1():
         ist_menge = 0
         ausschuss = 0
         write_data()
-        zeile = zeile + 1
         x = x + 1
-    return zeile
 
 # Auswahl zwischen den Events
 
