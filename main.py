@@ -1,6 +1,6 @@
 # machine data creation tool for machine learning project
 # dorian zwanzig 2018-11-03
-# version 0.2.1811051428
+# version 0.2.1811121004
 
 import numpy as np
 import sys
@@ -37,7 +37,8 @@ menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: ")) + zei
 # Erstellung mehrerer Datensätze durch Schleife (Normalbetrieb)
 
 
-def normalbetrieb(zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime):
+def normalbetrieb():
+    global zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime
     x = 0
     y = random.randrange(1, 200)
     while x < y:
@@ -57,7 +58,8 @@ def normalbetrieb(zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_
 # Erstellung mehrerer Datensätze durch Schleife (Wartung)
 
 
-def wartung(zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime):
+def wartung():
+    global zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime
     fehler_id = wartung_grund()
     temperatur = std_te
     x = 0
@@ -96,7 +98,8 @@ def wartung_grund():
 # Erstellung mehrerer Datensätze durch Schleife (Ausfall aufgrund zu hoher Motortemperatur)
 
 
-def ausfall_2(zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime):
+def ausfall_2():
+    global zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime
     fehler_id = "F002"
     temperatur = std_te
     x = 1
@@ -132,7 +135,8 @@ def ausfall_2(zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, 
 # Erstellung mehrerer Datensätze durch Schleife (Ausfall aufgrund zu hoher Leistungsaufnahme)
 
 
-def ausfall_1(zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime):
+def ausfall_1():
+    global zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime
     fehler_id = "F001"
     temperatur = std_te
     x = 1
@@ -171,35 +175,31 @@ def ausfall_1(zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, 
 # Auswahl zwischen den Events
 
 
-def choose(zeile, menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, starttime):
+def choose():
     random_choice = random.randrange(1, 100)
     if random_choice < 60:
-        zeile = str(normalbetrieb(zeile, menge, std_dz, std_la,
-                                  std_vb, std_ls, data_id_nr, std_te, starttime))
+        normalbetrieb()
     elif random_choice < 80:
-        zeile = str(wartung(zeile, menge, std_dz, std_la, std_vb,
-                            std_ls, data_id_nr, std_te, starttime))
+        wartung()
     elif random_choice < 90:
-        zeile = str(ausfall_1(zeile, menge, std_dz, std_la,
-                              std_vb, std_ls, data_id_nr, std_te, starttime))
+        ausfall_1()
     else:
-        zeile = str(ausfall_2(zeile, menge, std_dz, std_la,
-                              std_vb, std_ls, data_id_nr, std_te, starttime))
-    # print(zeile)
-    return zeile
+        ausfall_2()
 
 
 # Aufruf Auswahl
 while zeile < menge:
-    zeile = int(choose(zeile, menge, std_dz, std_la, std_vb,
-                       std_ls, data_id_nr, std_te, starttime))
+    choose()
+    # zeile = int(choose(zeile, menge, std_dz, std_la, std_vb,
+    #                   std_ls, data_id_nr, std_te, starttime))
 
 # Timestamp am Ende der Datei erstellen
 # d.write(time.strftime("%d.%m.%Y %H:%M:%S"))
 
 # Erfolgsbestätigung
-dmount = zeile - 1
-print("Datei mit " + str(dmount) + " Datensätzen wurde erstellt! Programm beendet")
+counter = zeile - 1
+print("Datei mit " + str(counter) +
+      " Datensätzen wurde erstellt! Programm beendet")
 
 # Schließen der Datei
 d.close()
