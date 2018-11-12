@@ -27,13 +27,13 @@ data_id_nr = 10000000    # Startwert für die Datensatz ID, wird um "ABC" am Anf
 std_te = 100             # Starttemperatur
 fehler_id = "leer"       # Fehlerwert bei Ausfall
 time = datetime(2018, 1, 1, 0, 0, 0)   # Startzeit der Simulation
-datum = "leer"
-uhrzeit = "leer"
+datum = "leer"           # Simuliertes Datum
+uhrzeit = "leer"         # Simulierte Uhrzeit
 machine_id = "XL400_01"  # Identifikation der Maschine
 prod_programm = "PP001"  # Produktionsprogramm
-soll_menge = 2350
-ist_menge = 2350
-ausschuss = 0
+soll_menge = 2350        # Soll-Menge des Produktionsprogramm
+ist_menge = 2350         # Tatsächlich produzierte Menge
+ausschuss = 0            # Fehlerhafte Teile
 
 # Startzeile setzen
 zeile = 1
@@ -45,9 +45,9 @@ menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: ")) + zei
 
 
 def write_data():
-    d.write("ABC" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) + ";" + str(std_la) +
-            ";" + str(std_vb) + ";" + str(std_ls) + ";" + str(std_te) + ";" + str(fehler_id) + ";" + str(prod_programm) +
-            ";" + str(soll_menge) + ";" + str(ist_menge) + ";" + str(ausschuss) + "\n")
+    d.write("ABC" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
+            ";" + str(std_la) + ";" + str(std_vb) + ";" + str(std_ls) + ";" + str(std_te) + ";" + str(fehler_id) +
+            ";" + str(prod_programm) + ";" + str(soll_menge) + ";" + str(ist_menge) + ";" + str(ausschuss) + "\n")
 
 # Zeitzähler
 
@@ -127,15 +127,15 @@ def ausfall_2():
     x = 1
     # Motortemperatur steigt bis zum Ausfall
     while std_te < 200:
-        std_dz = 100 + random.randrange(-2, 2)
+        std_dz = 100 + random.randrange(-4, 0)
         std_la = round(np.random.normal(18.5*x, 0.2), 3)
         std_vb = round(np.random.normal(0, 0.1), 3)
         std_ls = round(np.random.normal(75, 0.1), 3)
         data_id_nr = data_id_nr + 1
         timer()
         std_te = round(std_te + np.random.normal(1, 0.5), 1)
-        ist_menge = std_dz * 50
-        ausschuss = random.randrange(0, 200)
+        ist_menge = int(std_dz * 47 / 2)
+        ausschuss = int(round(x * x * random.randrange(5, 20), 0))
         write_data()
         zeile = zeile + 1
         x = x + round(np.random.normal(0.005, 0.002), 3)
@@ -165,15 +165,15 @@ def ausfall_1():
     x = 1
     # Strombedarf steigt bis zum Ausfall
     while std_la < 25:
-        std_dz = 100 + random.randrange(-2, 2)
+        std_dz = 100 + random.randrange(-3, 1)
         std_la = round(np.random.normal(18.5*x, 0.2), 3)
         std_vb = round(np.random.normal(0, 0.1), 3)
         std_ls = round(np.random.normal(75, 0.1), 3)
         data_id_nr = data_id_nr + 1
         timer()
         std_te = round(std_te + np.random.normal(0.5, 0.2), 1)
-        ist_menge = 0
-        ausschuss = random.randrange(0, 200)
+        ist_menge = int(std_dz * 47 / 2)
+        ausschuss = int(round(x * x * random.randrange(5, 20), 0))
         write_data()
         zeile = zeile + 1
         x = x + round(np.random.normal(0.01, 0.005), 3)
@@ -201,11 +201,11 @@ def ausfall_1():
 
 def choose():
     random_choice = random.randrange(1, 100)
-    if random_choice < 60:
+    if random_choice < 70:
         normalbetrieb()
     elif random_choice < 80:
         wartung()
-    elif random_choice < 90:
+    elif random_choice < 95:
         ausfall_1()
     else:
         ausfall_2()
