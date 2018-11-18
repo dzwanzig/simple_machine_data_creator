@@ -1,6 +1,6 @@
 # machine data creation tool for machine learning project
 # dorian zwanzig 2018-11-03
-# version 0.3.201811151940
+# version 0.3.201811181548
 
 # ACHTUNG!!!
 # beliefert noch die alte Datenbank, müssen noch die neuen Daten hochladen
@@ -168,7 +168,7 @@ def ausfall_2():
         ist_menge = int(std_dz * 47 / 2)
         ausschuss = int(round(x * x * random.randrange(5, 20), 0))
         write_data()
-        x = x + round(np.random.normal(0.005, 0.002), 3)
+        x = x + round(np.random.normal(0.002, 0.001), 3)
     fehler_id = "F002"
     # Abkühlung bis Normaltemperatur bevor Maschine wieder angeschaltet wird
     while std_te > 100:
@@ -221,11 +221,15 @@ def ausfall_1():
         write_data()
         x = x + 1
 
-# Für Test nur Normalbetrieb eingeschaltet
+# Für Test nur Normalbetrieb und Ausfall 1 eingeschaltet
 
 
 def choose():
-    ausfall_1()
+    random_choice = random.randrange(1, 100)
+    if random_choice < 70:
+        normalbetrieb()
+    else:
+        ausfall_1()
 
 """
 # Auswahl zwischen den Events
