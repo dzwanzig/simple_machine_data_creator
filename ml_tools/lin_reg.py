@@ -19,7 +19,7 @@ def read_db():
     # Zähler zum Dataframe hinzufügen 
     counter = [20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]
     df["Counter"] = counter
-    print(df)
+    # print(df)
 
 # lineare regression
 def lin_reg():
@@ -48,12 +48,12 @@ def rul_predict():
     print("-----------------------")
     
 """
-# ausgleichsgerade
+# Daten plotten
 plt.scatter(df["Counter"], df["Leistungsaufnahme"])
 plt.plot([0, 120], predicted, color="red")
 plt.show()
 """
-y = 1
+y = 30
 
 while x < y:
     read_db()
