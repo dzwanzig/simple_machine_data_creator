@@ -48,7 +48,6 @@ b = list_1[0]
 b = b[1]
 print(b)
 print(type(b))
-
 """
 
 conn.close()

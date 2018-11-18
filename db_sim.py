@@ -2,6 +2,7 @@
 # dorian zwanzig 2018-11-03
 # version 0.3.201811151940
 
+# ACHTUNG!!!
 # beliefert noch die alte Datenbank, müssen noch die neuen Daten hochladen
 # für neue DB muss new_row entsprechend angepasst werden
 
@@ -224,7 +225,7 @@ def ausfall_1():
 
 
 def choose():
-    normalbetrieb()
+    ausfall_1()
 
 """
 # Auswahl zwischen den Events
