@@ -1,6 +1,6 @@
 # machine data creation tool for machine learning project
 # dorian zwanzig 2018-11-03
-# version 0.2.1811121016
+# version 0.3.1811191148
 
 import numpy as np
 import sys
@@ -23,7 +23,7 @@ std_dz = 100             # Startdrehzahl
 std_la = 18.5            # Startleistungsaufnahme
 std_vb = 0               # Startvibration
 std_ls = 75              # Startlautstärke
-data_id_nr = 100000      # Startwert für die Datensatz ID, wird um "ABC" am Anfang ergänzt
+data_id_nr = 1000000     # Startwert für die Datensatz ID, wird um "400_1_" am Anfang ergänzt
 std_te = 100             # Starttemperatur
 fehler_id = "leer"       # Fehlerwert bei Ausfall
 time = datetime(2018, 1, 1, 0, 0, 0)   # Startzeit der Simulation
@@ -47,7 +47,7 @@ menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: ")) + zei
 def write_data():
     global zeile
     zeile = zeile + 1
-    d.write("ABC" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
+    d.write("400_1_" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
             ";" + str(std_la) + ";" + str(std_vb) + ";" + str(std_ls) + ";" + str(std_te) + ";" + str(fehler_id) +
             ";" + str(prod_programm) + ";" + str(soll_menge) + ";" + str(ist_menge) + ";" + str(ausschuss) + "\n")
 
@@ -139,7 +139,7 @@ def ausfall_2():
         ist_menge = int(std_dz * 47 / 2)
         ausschuss = int(round(x * x * random.randrange(5, 20), 0))
         write_data()
-        x = x + round(np.random.normal(0.005, 0.002), 3)
+        x = x + round(np.random.normal(0.001, 0.002), 3)
     fehler_id = "F002"
     # Abkühlung bis Normaltemperatur bevor Maschine wieder angeschaltet wird
     while std_te > 100:
@@ -174,7 +174,7 @@ def ausfall_1():
         ist_menge = int(std_dz * 47 / 2)
         ausschuss = int(round(x * x * random.randrange(5, 20), 0))
         write_data()
-        x = x + round(np.random.normal(0.01, 0.005), 3)
+        x = x + round(np.random.normal(0.005, 0.005), 3)
     fehler_id = "F001"
     # zufällige Ausfallzeit
     x = 0
@@ -197,14 +197,14 @@ def ausfall_1():
 
 def choose():
     random_choice = random.randrange(1, 100)
-    if random_choice < 70:
+    if random_choice < 80:
         normalbetrieb()
-    elif random_choice < 80:
-        wartung()
-    elif random_choice < 95:
+    elif random_choice < 90:
         ausfall_1()
-    else:
+    elif random_choice < 97:
         ausfall_2()
+    else:
+        wartung()
 
 
 # Aufruf Auswahl
