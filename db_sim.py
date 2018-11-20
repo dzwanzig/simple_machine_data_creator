@@ -67,7 +67,7 @@ def write_data():
 def write_db():
     global new_row
     cursor.executemany(
-        "INSERT INTO Test_Datensatz VALUES (%d, %s, %s, %s, %s, %s, %s, %s)",
+        "INSERT INTO Maschinendaten_2 VALUES (%d, %s, %s, %s, %s, %s, %s, %s)",
         [new_row])
     conn.commit()
     print("--------------------")

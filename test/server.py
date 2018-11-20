@@ -17,7 +17,7 @@ cursor = conn.cursor()
 # cursor.execute('SELECT LEISTUNGSAUFNAHME FROM Test_Datensatz WHERE ID=%s', 'ABC10000215')
 
 # Letzte ID abrufen
-cursor.execute('SELECT TOP 1 * FROM Test_Datensatz ORDER BY ID DESC')
+cursor.execute('SELECT TOP 1 * FROM Maschinendaten ORDER BY ID DESC')
 list_1 = cursor.fetchall()
 
 
