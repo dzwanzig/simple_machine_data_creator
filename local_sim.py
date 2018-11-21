@@ -1,6 +1,6 @@
 # machine data creation tool for machine learning project
 # dorian zwanzig 2018-11-03
-# version 0.3.1811191148
+# version 0.3.1811210800
 
 import numpy as np
 import sys
@@ -16,7 +16,7 @@ except:
     sys.exit(0)
 
 # Kopfzeile schreiben
-d.write("ID;Maschine;Datum;Uhrzeit;Drehzahl;Leistungsaufnahme;Vibration;Lautstaerke;Temperatur;FehlerID;Produktionsprogramm;SollMenge;IstMenge;Ausschuss\n")
+d.write("ID;Maschine;Timestamp;Datum;Uhrzeit;Drehzahl;Leistungsaufnahme;Vibration;Lautstaerke;Temperatur;FehlerID;Produktionsprogramm;SollMenge;IstMenge;Ausschuss\n")
 
 # Startwerte (STartData):
 std_dz = 100             # Startdrehzahl
@@ -25,7 +25,7 @@ std_vb = 0               # Startvibration
 std_ls = 75              # Startlautstärke
 data_id_nr = 1000000     # Startwert für die Datensatz ID, wird um "400_1_" am Anfang ergänzt
 std_te = 100             # Starttemperatur
-fehler_id = "leer"       # Fehlerwert bei Ausfall
+fehler_id = "x000"       # Fehlerwert bei Ausfall
 time = datetime(2018, 1, 1, 0, 0, 0)   # Startzeit der Simulation
 datum = "leer"           # Simuliertes Datum
 uhrzeit = "leer"         # Simulierte Uhrzeit
@@ -47,7 +47,7 @@ menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: ")) + zei
 def write_data():
     global zeile
     zeile = zeile + 1
-    d.write("400_1_" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
+    d.write("400_1_" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(time) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
             ";" + str(std_la) + ";" + str(std_vb) + ";" + str(std_ls) + ";" + str(std_te) + ";" + str(fehler_id) +
             ";" + str(prod_programm) + ";" + str(soll_menge) + ";" + str(ist_menge) + ";" + str(ausschuss) + "\n")
 
@@ -77,7 +77,7 @@ def normalbetrieb():
         data_id_nr = data_id_nr + 1
         timer()
         std_te = 100
-        fehler_id = "0000"
+        fehler_id = "x000"
         ist_menge = 2350
         ausschuss = random.randrange(0, 20)
         write_data()
@@ -125,7 +125,7 @@ def wartung_grund():
 
 def ausfall_2():
     global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
-    fehler_id = "0000"
+    fehler_id = "x000"
     x = 1
     # Motortemperatur steigt bis zum Ausfall
     while std_te < 200:
@@ -160,7 +160,7 @@ def ausfall_2():
 
 def ausfall_1():
     global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
-    fehler_id = "0000"
+    fehler_id = "x000"
     x = 1
     # Strombedarf steigt bis zum Ausfall
     while std_la < 25:

@@ -1,6 +1,6 @@
 # machine data creation tool for machine learning project
 # dorian zwanzig 2018-11-03
-# version 0.3.201811191228
+# version 0.3.201811210800
 
 import numpy as np
 import sys
@@ -26,7 +26,7 @@ last_id = int(last_id.replace("400_1_", "")) - 1000000
 
 # Uhrzeit extrahieren
 last_time = list_1[0]
-last_time = last_time[1]
+last_time = last_time[2]
 
 # Startwerte (STartData):
 std_dz = 100             # Startdrehzahl
@@ -44,7 +44,8 @@ prod_programm = "PP001"  # Produktionsprogramm
 soll_menge = 2350        # Soll-Menge des Produktionsprogramm
 ist_menge = 2350         # Tatsächlich produzierte Menge
 ausschuss = 0            # Fehlerhafte Teile
-new_row = ("","","","","","","","") # Neue Zeile für Serverübergabe
+new_row = ("", "", "", "", "", "", "", "", "", "", "", "",
+           "", "", "")  # Neue Zeile für Serverübergabe
 
 # Nutzerabfrage: Menge Datensätze
 menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: "))
@@ -53,8 +54,8 @@ menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: "))
 
 
 def write_data():
-    global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, fehler_id, ist_menge, ausschuss, new_row, datum, uhrzeit, soll_menge, prod_programm, machine_id
-    new_row = tuple(("400_1_" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
+    global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, fehler_id, ist_menge, ausschuss, new_row, datum, uhrzeit, soll_menge, prod_programm, machine_id, time
+    new_row = tuple(("400_1_" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(time) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
                      ";" + str(std_la) + ";" + str(std_vb) + ";" + str(std_ls) + ";" + str(std_te) + ";" + str(fehler_id) +
                      ";" + str(prod_programm) + ";" + str(soll_menge) + ";" + str(ist_menge) + ";" + str(ausschuss)))
     print("--------------------")
@@ -67,7 +68,7 @@ def write_data():
 def write_db():
     global new_row
     cursor.executemany(
-        "INSERT INTO Maschinendaten_2 VALUES (%d, %s, %s, %s, %s, %s, %s, %s)",
+        "INSERT INTO Maschinendaten_2 VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
         [new_row])
     conn.commit()
     print("--------------------")
@@ -261,6 +262,6 @@ conn.close()
 print("Serververbindung geschlossen!")
 
 # Erfolgsbestätigung
-counter = data_id_nr - last_id - 10000000
+counter = data_id_nr - last_id - 1000000
 print("Datei mit " + str(counter) +
       " Datensätzen wurde erstellt! Programm wird beendet")
