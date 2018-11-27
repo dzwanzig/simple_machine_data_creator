@@ -16,7 +16,7 @@ conn = pymssql.connect("pcs.f4.htw-berlin.de", "Masterprojekt", password, "Praed
 cursor = conn.cursor()
 
 # letzten Datensatz abrufen
-cursor.execute('SELECT TOP 1 * FROM Test_Datensatz ORDER BY ID DESC')
+cursor.execute('SELECT TOP 1 * FROM Maschinendaten_20181122 ORDER BY ID DESC')
 list_1 = cursor.fetchall()
 
 # ID extrahieren
@@ -44,8 +44,7 @@ prod_programm = "PP001"  # Produktionsprogramm
 soll_menge = 2350        # Soll-Menge des Produktionsprogramm
 ist_menge = 2350         # Tatsächlich produzierte Menge
 ausschuss = 0            # Fehlerhafte Teile
-new_row = ("", "", "", "", "", "", "", "", "", "", "", "",
-           "", "", "")  # Neue Zeile für Serverübergabe
+new_row = ()  # Neue Zeile für Serverübergabe
 
 # Nutzerabfrage: Menge Datensätze
 menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: "))
@@ -55,9 +54,8 @@ menge = int(input("Bitte Anzahl der gewünschten Datensätze eingeben: "))
 
 def write_data():
     global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, fehler_id, ist_menge, ausschuss, new_row, datum, uhrzeit, soll_menge, prod_programm, machine_id, time
-    new_row = tuple(("400_1_" + str(data_id_nr) + ";" + str(machine_id) + ";" + str(time) + ";" + str(datum) + ";" + str(uhrzeit) + ";" + str(std_dz) +
-                     ";" + str(std_la) + ";" + str(std_vb) + ";" + str(std_ls) + ";" + str(std_te) + ";" + str(fehler_id) +
-                     ";" + str(prod_programm) + ";" + str(soll_menge) + ";" + str(ist_menge) + ";" + str(ausschuss)))
+    new_row = tuple(("400_1_" + str(data_id_nr), machine_id, time, datum, uhrzeit, std_dz, std_la, std_vb, std_ls, std_te, fehler_id,
+                    prod_programm, soll_menge, ist_menge, ausschuss, "5"))
     print("--------------------")
     print("new_row" + str(new_row))
     write_db()
@@ -68,7 +66,7 @@ def write_data():
 def write_db():
     global new_row
     cursor.executemany(
-        "INSERT INTO Maschinendaten_2 VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        "INSERT INTO Maschinendaten_20181122 VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
         [new_row])
     conn.commit()
     print("--------------------")
