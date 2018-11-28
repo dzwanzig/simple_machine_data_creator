@@ -97,7 +97,7 @@ def wait():
 def normalbetrieb():
     global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
     x = 0
-    y = random.randrange(1, 200)
+    y = random.randrange(1, 50)
     while x < y:
         std_dz = 100
         std_la = round(np.random.normal(18.5, 0.1), 3)
@@ -106,7 +106,7 @@ def normalbetrieb():
         data_id_nr = data_id_nr + 1
         timer()
         std_te = 100
-        fehler_id = "0000"
+        fehler_id = "x000"
         ist_menge = 2350
         ausschuss = random.randrange(0, 20)
         write_data()
@@ -154,7 +154,7 @@ def wartung_grund():
 
 def ausfall_2():
     global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
-    fehler_id = "0000"
+    fehler_id = "x000"
     x = 1
     # Motortemperatur steigt bis zum Ausfall
     while std_te < 200:
@@ -189,7 +189,7 @@ def ausfall_2():
 
 def ausfall_1():
     global menge, std_dz, std_la, std_vb, std_ls, data_id_nr, std_te, time, fehler_id, ist_menge, ausschuss
-    fehler_id = "0000"
+    fehler_id = "x000"
     x = 1
     # Strombedarf steigt bis zum Ausfall
     while std_la < 25:
@@ -226,7 +226,7 @@ def ausfall_1():
 
 def choose_test():
     random_choice = random.randrange(1, 100)
-    if random_choice < 70:
+    if random_choice < 50:
         normalbetrieb()
     else:
         ausfall_1()
