@@ -13,3 +13,5 @@ df = pd.read_sql('SELECT * FROM predictions', conn)
 plt.scatter(df["Timestamp"], df["Ausfallzeitpunkt"])
 # plt.plot([0, 120], predicted, color="red")
 plt.show()
+
+conn.close()
