@@ -14,12 +14,15 @@ conn = pymssql.connect("pcs.f4.htw-berlin.de", "Masterprojekt",
 cursor = conn.cursor()
 
 # letzte 20 werte aus sql datenbank als dataframe lesen
+
+
 def read_db():
     global df, time
     """ This function connects to machine data table in the prediction database an reads the last 20 rows.
     It creates a dataframe with an index from 1 to 20 in the variable 'df' as a pandas data frame and 
     stores the latest timestamp in the variable 'time'. """
-    df = pd.read_sql('SELECT TOP 20 * FROM Maschinendaten_20181122 ORDER BY ID DESC', conn)
+    df = pd.read_sql(
+        'SELECT TOP 20 * FROM Maschinendaten_20181122 ORDER BY ID DESC', conn)
     last_timestamp = df['Timestamp']
     time = last_timestamp[0]
     print("Last timestamp: " + str(time))
@@ -30,6 +33,8 @@ def read_db():
     # print(df)
 
 # lineare regression
+
+
 def lin_reg():
     global df, model, predicted
     model = LinearRegression()
@@ -45,30 +50,36 @@ def lin_reg():
     print(df)
     """
 
+
 def rul_predict():
     global df, model, rul
     coef = float(model.coef_[0])
     cur = float(df["Leistungsaufnahme"][0])
     print(cur)
-    rul = round((25.0 - cur) / coef * 0.5 * 60,0)
+    rul = round((25.0 - cur) / coef * 0.5 * 60, 0)
     print("-----------------------")
     print("Remaining usefull life: " + str(rul) + " seconds")
     print("-----------------------")
 
 # write data to prediction table
+
+
 def rul_write():
     """ rul_write stores the predicted useful life in the prediction table in the prediction database. """
     global rul, time, cursor
-    id_old = pd.read_sql('SELECT TOP 1 ID FROM predictions ORDER BY ID DESC', conn)
+    id_old = pd.read_sql(
+        'SELECT TOP 1 ID FROM predictions ORDER BY ID DESC', conn)
     id_new = id_old['ID']
     id_new = id_new[0] + 1
     rul_time = time + timedelta(seconds=rul)
     print(rul_time)
-    new_row = tuple((str(id_new), str(time), "lin_reg", "XL_400_1", str(rul_time), "F001")) # all elements in tuple have to be strings
-    sql = "INSERT INTO Predictions VALUES (%d, %s, %s, %s, %s, %s)"
+    new_row = tuple((str(id_new), str(time), "lin_reg", "XL_400_1", str(
+        rul_time), "F001", "5"))  # all elements in tuple have to be strings
+    sql = "INSERT INTO Predictions VALUES (%d, %s, %s, %s, %s, %s, %s)"
     cursor.execute(sql, new_row)
     conn.commit()
     print("new_row added")
+
 
 """
 # Daten plotten
